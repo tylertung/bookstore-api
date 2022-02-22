@@ -1,18 +1,21 @@
 class RegistrationsController < ApplicationController
+  SECRET = Rails.application.secrets.secret_key_base
+
   def create
-    params[:user][:role] = 'normal'
-    user = User.create!(
+    user = User.create(
       user_params
     )
     if user
-      session[:user_id] = user.id
+      user.update(role: :normal)
       render json: {
         status: :created,
-        user: user
+        user: user,
+        token: JWT.encode({ user_id: user.id }, SECRET, 'HS256')
       }
     else
       render json: {
-        status: 500
+        errors: user.errors.full_messages,
+        status: :unprocessable_entity
       }
     end
   end
@@ -21,6 +24,6 @@ class RegistrationsController < ApplicationController
 
   def user_params
     params.required(:user).permit(:first_name, :last_name, :username, :dob, :gender, :email, :password,
-                                  :password_confirmation, :role)
+                                  :password_confirmation)
   end
 end
