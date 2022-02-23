@@ -1,0 +1,1 @@
+ENV['REACT_CORS_ORIGINS'] = '*'

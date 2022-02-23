@@ -5,7 +5,7 @@ class RegistrationsController < ApplicationController
     user = User.create(
       user_params
     )
-    if user
+    if user.valid?
       user.update(role: :normal)
       render json: {
         status: :created,
@@ -14,13 +14,24 @@ class RegistrationsController < ApplicationController
       }
     else
       render json: {
-        errors: user.errors.full_messages,
+        errors: to_errors_object(user),
         status: :unprocessable_entity
       }
     end
   end
 
   private
+
+  def to_errors_object(full_errors)
+    obj = {}
+    obj[:first_name] = full_errors.errors[:first_name]
+    obj[:last_nạme] = full_errors.errors[:last_name]
+    obj[:dob] = full_errors.errors[:dob]
+    obj[:gender] = full_errors.errors[:gender]
+    obj[:email] = full_errors.errors[:email]
+    obj[:password] = full_errors.errors[:password]
+    obj
+  end
 
   def user_params
     params.required(:user).permit(:first_name, :last_name, :username, :dob, :gender, :email, :password,
