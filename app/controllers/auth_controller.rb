@@ -16,7 +16,7 @@ class AuthController < ApplicationController
       token = JWT.decode(encoded_token, RegistrationsController::SECRET)
       user_id = token[0]['user_id']
       user = User.find(user_id)
-      render json: {status: :accepted, user: user}
+      render json: {status: :accepted, user: UserSerializer.new(user)}
     end
   end
 
