@@ -5,12 +5,14 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
+REACT_CORS_ORIGINS = '*'
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    origins ENV.fetch('REACT_CORS_ORIGINS', '*').split(',').map(&:strip)
 
     resource '*',
-      headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+             headers: :any,
+             methods: %i[get post put patch delete options head]
   end
 end
