@@ -1,5 +1,4 @@
 class RegistrationsController < ApplicationController
-  
   SECRET = Rails.application.secrets.secret_key_base
 
   def create
@@ -9,13 +8,13 @@ class RegistrationsController < ApplicationController
       render json: {
         status: :created,
         user: user,
-        token: JWT.encode({ user_id: user.id }, SECRET, 'HS256')
+        token: JWT.encode({ user_id: user.id, exp: Time.now.to_i + 7 * 86_400 }, SECRET, 'HS256')
       }, status: :created
     else
       render json: {
         errors: user.errors.as_json
       },
-        status: :unprocessable_entity
+             status: :unprocessable_entity
     end
   end
 
