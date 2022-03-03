@@ -6,7 +6,7 @@ class AuthController < ApplicationController
                          'HS256')
       render json: { status: :accepted, token: token }
     else
-      render json: { errors: fail_authenticate, status: :unprocessable_entity }
+      render json: { message: fail_authenticate, status: :unprocessable_entity }
     end
   end
 

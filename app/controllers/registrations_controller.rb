@@ -12,7 +12,7 @@ class RegistrationsController < ApplicationController
       }, status: :created
     else
       render json: {
-        errors: user.errors.as_json
+        message: user.errors
       },
              status: :unprocessable_entity
     end
