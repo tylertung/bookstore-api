@@ -2,7 +2,10 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[show update destroy]
   # GET /books
   def index
-    @books = Book.all
+    @books = Book.where(nil)
+    search_params(params).each do |_key, value|
+      @books = Book.public_send('start_with', value) if value.present?
+    end
 
     render json: @books
   end
@@ -44,15 +47,6 @@ class BooksController < ApplicationController
     render json: @genres
   end
 
-  def search
-    @books = Book.start_with(search_params[:title])
-    if @books.length > 0
-      render json: @books, status: :ok
-    else
-      render json: { message: (I18n.t 'book.search_failure') }, status: :unprocessable_entity
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -65,7 +59,7 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title, :description, :author_id, :genres)
   end
 
-  def search_params
-    params.require(:query).permit(:title)
+  def search_params(params)
+    params.slice(:title)
   end
 end
