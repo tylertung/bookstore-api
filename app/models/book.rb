@@ -4,4 +4,7 @@ class Book < ApplicationRecord
 
   validates :title, presence: true
   validates :author_id, presence: true
+
+  scope :filter_by_genre, ->(genre) { where name: genre }
+  scope :start_with, ->(char) { where('title like ?', "#{char}%") }
 end

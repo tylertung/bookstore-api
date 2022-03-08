@@ -44,6 +44,14 @@ class BooksController < ApplicationController
     render json: @genres
   end
 
+  def search
+    @books = Book.start_with(search_params[:title])
+    if @books.length > 0
+      render json: @books, status: :ok
+    else
+      render json: { message: (I18n.t 'book.search_failure') }, status: :unprocessable_entity
+    end
+  end
 
   private
 
