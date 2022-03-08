@@ -1,5 +1,4 @@
 class BooksController < ApplicationController
-  after_action :verify_authorized, only: %i[create update destroy]
   before_action :set_book, only: %i[show update destroy]
   # GET /books
   def index
@@ -15,7 +14,9 @@ class BooksController < ApplicationController
 
   # POST /books
   def create
-    @book = Book.new(book_params)
+    @book = Book.new(book_params.except(:genres))
+    @genre = Genre.find_by(name: book_params[:genres])
+    @book.genres << @genre if @genre
     authorize @book
     if @book.save
       render json: @book, status: :created, location: @book
@@ -38,6 +39,12 @@ class BooksController < ApplicationController
     @book.destroy
   end
 
+  def genres
+    @genres = Genre.all
+    render json: @genres
+  end
+
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -47,6 +54,10 @@ class BooksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def book_params
-    params.require(:book).permit(:title, :description, :author_id)
+    params.require(:book).permit(:title, :description, :author_id, :genres)
+  end
+
+  def search_params
+    params.require(:query).permit(:title)
   end
 end

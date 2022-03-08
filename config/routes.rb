@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :books
   resources :author
+  get '/genres', to: 'books#genres'
   post '/login', to: 'auth#login'
   get '/auth', to: 'auth#persist'
   post '/sign-up', to: 'registrations#create'

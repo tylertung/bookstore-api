@@ -7,11 +7,11 @@ class RegistrationsController < ApplicationController
       user.save
       render json: {
         status: :created,
-        user: user,
-        token: JWT.encode({ user_id: user.id, exp: Time.now.to_i + 7 * 86_400 }, SECRET, 'HS256')
+        user:   user,
+        token:  encode(user.id)
       }, status: :created
     else
-      render json: {
+      render json:   {
         message: user.errors
       },
              status: :unprocessable_entity
