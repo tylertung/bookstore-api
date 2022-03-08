@@ -1,0 +1,3 @@
+en: 
+  user: 
+    login_failure: "Wrong password or email ! Please try again"

@@ -1,9 +1,11 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :update, :destroy]
-
+  before_action :set_book, only: %i[show update destroy]
   # GET /books
   def index
-    @books = Book.all
+    @books = Book.where(nil)
+    search_params(params).each do |_key, value|
+      @books = Book.public_send('start_with', value) if value.present?
+    end
 
     render json: @books
   end
@@ -15,12 +17,14 @@ class BooksController < ApplicationController
 
   # POST /books
   def create
-    @book = Book.new(book_params)
-
+    @book = Book.new(book_params.except(:genres))
+    @genre = Genre.find_by(name: book_params[:genres])
+    @book.genres << @genre if @genre
+    authorize @book
     if @book.save
       render json: @book, status: :created, location: @book
     else
-      render json: @book.errors, status: :unprocessable_entity
+      render json: { message: @book.errors }, status: :unprocessable_entity
     end
   end
 
@@ -29,7 +33,7 @@ class BooksController < ApplicationController
     if @book.update(book_params)
       render json: @book
     else
-      render json: @book.errors, status: :unprocessable_entity
+      render json: { message: @book.errors }, status: :unprocessable_entity
     end
   end
 
@@ -38,14 +42,24 @@ class BooksController < ApplicationController
     @book.destroy
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_book
-      @book = Book.find(params[:id])
-    end
+  def genres
+    @genres = Genre.all
+    render json: @genres
+  end
 
-    # Only allow a list of trusted parameters through.
-    def book_params
-      params.require(:book).permit(:title, :description, :author_id)
-    end
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_book
+    @book = Book.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def book_params
+    params.require(:book).permit(:title, :description, :author_id, :genres)
+  end
+
+  def search_params(params)
+    params.slice(:title)
+  end
 end
