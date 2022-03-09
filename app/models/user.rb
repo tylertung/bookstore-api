@@ -5,4 +5,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6, message: 'minimum is 6 characters' }, confirmation: true
   validates :password_confirmation, presence: true
   enum role: { normal: 'normal', admin: 'admin' }
+
+  has_many :comments
+  has_many :rates
 end

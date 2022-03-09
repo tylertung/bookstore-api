@@ -1,3 +1,6 @@
 en:
   book:
     search_failure: "Don't have result! Please try again"
+    comment_failure: "Create comment unsuccessful!"
+    delete_comment_success: "Deleted comment!"
+    delete_comment_failure: "Deleted comment unsuccessful!"
