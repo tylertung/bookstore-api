@@ -3,5 +3,6 @@ class BookSerializer < ActiveModel::Serializer
   belongs_to :author
   has_many :genres
   has_many :comments
+  has_many :rates
 
 end
