@@ -6,14 +6,14 @@ class RatesController < ApplicationController
     if already_rated?
       render json: { message: (I18n.t 'book.already_rated_book') }
     else
-      @book.rates.create(user_id: rate_params[:user_id])
+      authorize @book.rates.create(user_id: rate_params[:user_id])
       render json: { book: @book, message: (I18n.t 'book.rated_book') }
     end
   end
 
   def destroy
     if already_rated?
-      @rate.destroy
+      authorize @rate.destroy
       render json: { message: (I18n.t 'book.unrated_book') }
     else
       render json: { message: (I18n.t 'book.unrated_book_failure') }
