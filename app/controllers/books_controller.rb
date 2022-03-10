@@ -12,7 +12,7 @@ class BooksController < ApplicationController
 
   # GET /books/1
   def show
-    render json: @book
+    render json: { book: BookSerializer.new(@book) }
   end
 
   # POST /books

@@ -14,10 +14,10 @@ class CommentsController < ApplicationController
     @comment = @book.comments.find(destroy_params[:id])
     authorize @comment
     @comment.destroy
-    if !@comment.nil?
-      render json: { message: (I18n.t 'book.delete_comment_success') }
-    else
+    if @comment.nil?
       render json: { message: (I18n.t 'book.delete_comment_failure') }, status: :bad_request
+    else
+      render json: { message: (I18n.t 'book.delete_comment_success') }
     end
   end
 
@@ -29,5 +29,5 @@ class CommentsController < ApplicationController
 
   def destroy_params
     params.permit(:id, :book_id)
-  end 
+  end
 end
