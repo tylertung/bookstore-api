@@ -7,7 +7,7 @@ class BooksController < ApplicationController
       @books = Book.public_send("filter_by_#{key}", value) if value.present?
     end
 
-    render json: @books
+    render json: @books.includes(%i[author comments genres books_genres ])
   end
 
   # GET /books/1

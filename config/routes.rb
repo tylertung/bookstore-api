@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :books do
-    resources :comments, only: %i[create destroy]
+    resources :comments, only: %i[create destroy index]
     resources :rates, only: %i[create destroy]
   end
   resources :author

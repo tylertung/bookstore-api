@@ -1,4 +1,11 @@
 class CommentsController < ApplicationController
+  before_action :find_book
+
+  def index
+    @comments = @book.comments.all.order('created_at DESC')
+    render json: @comments
+  end
+
   def create
     @comment = Comment.new(comment_params)
     authorize @comment
@@ -10,7 +17,6 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @book = Book.find(destroy_params[:book_id])
     @comment = @book.comments.find(destroy_params[:id])
     authorize @comment
     @comment.destroy
@@ -29,5 +35,9 @@ class CommentsController < ApplicationController
 
   def destroy_params
     params.permit(:id, :book_id)
+  end
+
+  def find_book
+    @book = Book.find(params[:book_id])
   end
 end
