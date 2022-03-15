@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :books
+  resources :books do
+    resources :comments, only: %i[create destroy index]
+    resources :rates, only: %i[create destroy]
+  end
   resources :author
   get '/genres', to: 'books#genres'
   post '/login', to: 'auth#login'

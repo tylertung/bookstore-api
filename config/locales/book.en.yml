@@ -1,3 +1,10 @@
 en:
   book:
     search_failure: "Don't have result! Please try again"
+    comment_failure: "Create comment unsuccessful!"
+    delete_comment_success: "Deleted comment!"
+    delete_comment_failure: "Deleted comment unsuccessful!"
+    already_rated_book: "You can only rate once"
+    rated_book: "Rated book successfully"
+    unrated_book: "You unrated book"
+    unrated_book_failure: "Can't unrate"

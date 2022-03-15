@@ -3,16 +3,16 @@ class BooksController < ApplicationController
   # GET /books
   def index
     @books = Book.where(nil)
-    search_params(params).each do |_key, value|
-      @books = Book.public_send('start_with', value) if value.present?
+    search_params.each do |key, value|
+      @books = Book.public_send("filter_by_#{key}", value) if value.present?
     end
 
-    render json: @books
+    render json: @books.includes(%i[author comments genres books_genres ])
   end
 
   # GET /books/1
   def show
-    render json: @book
+    render json: { book: BookSerializer.new(@book) }
   end
 
   # POST /books
@@ -59,7 +59,7 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title, :description, :author_id, :genres)
   end
 
-  def search_params(params)
-    params.slice(:title)
+  def search_params
+    params.permit(:start_with, :genre)
   end
 end
