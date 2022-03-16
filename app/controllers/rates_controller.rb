@@ -6,7 +6,7 @@ class RatesController < ApplicationController
     if already_rated?
       render json: { message: (I18n.t 'book.already_rated_book') }
     else
-      authorize @book.rates.create(user_id: rate_params[:user_id])
+      authorize @book.rates.create(user_id: rate_params[:user_id],quantity: rate_params[:quantity])
       render json: { book: @book, message: (I18n.t 'book.rated_book') }
     end
   end
@@ -35,6 +35,6 @@ class RatesController < ApplicationController
   end
 
   def rate_params
-    params.permit(:user_id, :book_id, :id)
+    params.permit(:user_id, :book_id, :id, :quantity)
   end
 end
