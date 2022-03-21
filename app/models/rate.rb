@@ -4,4 +4,5 @@ class Rate < ApplicationRecord
 
   validates :book_id, presence: true 
   validates :user_id, presence: true
+  validates :quantity, presence: true
 end

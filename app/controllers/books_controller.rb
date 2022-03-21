@@ -2,12 +2,13 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[show update destroy]
   # GET /books
   def index
-    @books = Book.where(nil)
+    @books = Book.where(nil).includes(%i[author comments genres books_genres])
     search_params.each do |key, value|
       @books = Book.public_send("filter_by_#{key}", value) if value.present?
+      puts value if key == :genres
     end
 
-    render json: @books.includes(%i[author comments genres books_genres ])
+    render json: @books.includes(%i[author comments genres books_genres])
   end
 
   # GET /books/1
@@ -60,6 +61,6 @@ class BooksController < ApplicationController
   end
 
   def search_params
-    params.permit(:start_with, :genre)
+    params.permit(:keyword, :genres => [])
   end
 end
