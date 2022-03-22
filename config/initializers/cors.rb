@@ -5,8 +5,6 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-REACT_CORS_ORIGINS = '*'
-
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins ENV.fetch('REACT_CORS_ORIGINS', '*').split(',').map(&:strip)

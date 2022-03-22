@@ -16,11 +16,11 @@ gem 'puma', '~> 5.0'
 # Use Active Model has_secure_password
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'bcrypt', '~> 3.1.7'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'faker'
 gem 'jwt', '~> 2.3'
 gem 'pundit'
 gem 'rack-cors', '~> 1.1', '>= 1.1.1'
-
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
