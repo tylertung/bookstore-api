@@ -1,3 +1,4 @@
 en: 
   user: 
     login_failure: "Wrong password or email ! Please try again"
+    auth_failure: "The Token is not decoded"

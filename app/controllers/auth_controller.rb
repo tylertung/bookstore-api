@@ -16,6 +16,8 @@ class AuthController < ApplicationController
       user_id = token[0]['user_id']
       user = User.find(user_id)
       render json: { status: :accepted, user: UserSerializer.new(user) }
+    else
+      render json: { message: (I18n.t 'user.auth_failure') }, status: :unauthorize
     end
   end
 
