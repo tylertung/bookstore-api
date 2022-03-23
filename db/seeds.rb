@@ -7,16 +7,16 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 
-9.times{
+9.times do
   Author.create!(
     name: Faker::Book.author
   )
-}
+end
 
-20.times{
+20.times do
   Book.create!(
-    title: Faker::Book.title,
-    description: "None description",
-    author_id: rand(1..10)
+    title:       Faker::Book.title,
+    description: 'None description',
+    author_id:   rand(1..10)
   )
-}
+end

@@ -1,9 +1,9 @@
 class RatePolicy < ApplicationPolicy
   def create
     @user
-  end 
+  end
 
   def destroy
     @user
-  end 
+  end
 end

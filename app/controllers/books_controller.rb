@@ -61,6 +61,6 @@ class BooksController < ApplicationController
   end
 
   def search_params
-    params.permit(:keyword, :genres => [])
+    params.permit(:keyword, genres: [])
   end
 end

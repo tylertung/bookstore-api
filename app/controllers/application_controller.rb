@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   include Pundit::Authorization
-  SECRET = Rails.application.secrets.secret_key_base
+  SECRET = Rails.application.secret_key_base
 
   def current_user
     if request.headers['Authorization']

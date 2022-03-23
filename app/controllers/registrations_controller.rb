@@ -1,6 +1,4 @@
 class RegistrationsController < ApplicationController
-  SECRET = Rails.application.secrets.secret_key_base
-
   def create
     user = User.normal.new(user_params)
     if user.valid?
